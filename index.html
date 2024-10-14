@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function getComputerChoice(){
+            
+            let num = Math.round(Math.random()*2)
+            console.log(num)
+            let computerChoice = (num == 0) ? 'Rock' :
+                (num == 1) ? 'Paper':
+                (num == 2) ? 'Scissors':
+                'error';
+
+            return computerChoice
+        }
+        function getPlayerChoice(){
+            let choice = prompt('Rock, Paper, Scissors, say shoot!', 'empty')
+            if ((choice != 'Rock') && (choice != 'Paper') && (choice != 'Scissors' ) ){
+                choice = getPlayerChoice();
+            }
+            return choice
+        }
+        function playRound(){
+            let playerChoice = getPlayerChoice()
+            let computerChoice = getComputerChoice()
+            let result =''
+
+            if( (playerChoice == 'Rock' && computerChoice == 'Scissors')|| 
+            (playerChoice == 'Scissors' && computerChoice == 'Paper') || 
+            (playerChoice == 'Paper' && computerChoice == 'Rock') ){
+                result = 'Player wins';
+            } else if( playerChoice == computerChoice){
+                console.log('Lets do that again!')
+                result = playRound();
+            }else {
+                result = 'Computer wins!'
+            }
+
+            return result
+        }
+        function playGame(){
+            let result = ''
+            let playerScore = 0
+            let computerScore = 0
+            for(let i = 0; i < 5; i++){
+                result = playRound()
+                if (result == 'Player wins'){
+                    playerScore++;
+                    console.log('Player:' ,playerScore)
+                }
+                if (result == 'Computer Wins!'){
+                    computerScore++;
+                    console.log('Computer:' ,computerScore)
+                } 
+                
+            }
+            if(playerScore > computerScore){
+                console.log('Congratulations! You win!');
+            } else if (playerScore == computerScore){
+                console.log('It is a tie!')
+            } else {
+                console.log('The computer wins!')
+            }
+           
+            
+            return
+        }
+
+        console.log("Let's play Rock, Paper, Scissors!")
+        playGame()
+        let retry = prompt('Would you like to play again?', 'Y/N')
+        if ( retry == 'Y'){
+                playGame();
+            }
+        
+
+        // console.log(getPlayerChoice())
+        // console.log(getComputerChoice())
+
+        
+    </script>
+</body>
+</html>
