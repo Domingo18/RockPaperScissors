@@ -3,84 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>RockPaperScissors</title>
 </head>
 <body>
+    <div id="score">
+
+        <p>Player Score: </p>
+        <span id="col1">
+            0
+        </span>
+
+        <p>Computer Score: </p>
+        <span id="col2">
+            0
+        </span>
+    </div>
     <script>
+
+        let playerSelection = '';
+        let playerScore = 0;
+        let computerScore = 0;   
+        let roundCount = 0;
+
+
+
+        console.log("Let's play Rock, Paper, Scissors!")
+
+        function endGame() {
+
+            if (playerScore > computerScore){
+                alert('Congratualions you win!')
+            } else {
+                alert('Computer wins!')
+            }
+        
+            if (prompt('Retry Y/N?') != 'N'){
+                playerScore   = 0;
+                computerScore = 0;
+                roundCount    = 0;
+            }
+        }
+
         function getComputerChoice(){
             
             let num = Math.round(Math.random()*2)
             console.log(num)
             let computerChoice = (num == 0) ? 'Rock' :
-                (num == 1) ? 'Paper':
-                (num == 2) ? 'Scissors':
-                'error';
+                                 (num == 1) ? 'Paper':
+                                 (num == 2) ? 'Scissors':
+                                 'error';
 
             return computerChoice
         }
-        function getPlayerChoice(){
-            let choice = prompt('Rock, Paper, Scissors, say shoot!', 'empty')
-            if ((choice != 'Rock') && (choice != 'Paper') && (choice != 'Scissors' ) ){
-                choice = getPlayerChoice();
-            }
-            return choice
-        }
+     
         function playRound(){
-            let playerChoice = getPlayerChoice()
+
             let computerChoice = getComputerChoice()
-            let result =''
+            roundCount++;
+            
 
-            if( (playerChoice == 'Rock' && computerChoice == 'Scissors')|| 
-            (playerChoice == 'Scissors' && computerChoice == 'Paper') || 
-            (playerChoice == 'Paper' && computerChoice == 'Rock') ){
-                result = 'Player wins';
-            } else if( playerChoice == computerChoice){
+            if( (playerSelection == 'Rock' && computerChoice == 'Scissors')|| 
+                (playerSelection == 'Scissors' && computerChoice == 'Paper') || 
+                (playerSelection == 'Paper' && computerChoice == 'Rock') ){               
+                playerScore ++;
+                
+            } else if( playerSelection == computerChoice){
                 console.log('Lets do that again!')
-                result = playRound();
+                playRound();
             }else {
-                result = 'Computer wins!'
-            }
-
-            return result
-        }
-        function playGame(){
-            let result = ''
-            let playerScore = 0
-            let computerScore = 0
-            for(let i = 0; i < 5; i++){
-                result = playRound()
-                if (result == 'Player wins'){
-                    playerScore++;
-                    console.log('Player:' ,playerScore)
-                }
-                if (result == 'Computer Wins!'){
-                    computerScore++;
-                    console.log('Computer:' ,computerScore)
-                } 
+                computerScore ++;
                 
             }
-            if(playerScore > computerScore){
-                console.log('Congratulations! You win!');
-            } else if (playerScore == computerScore){
-                console.log('It is a tie!')
-            } else {
-                console.log('The computer wins!')
+
+            if(roundCount >= 5){
+                endGame();
             }
-           
-            
-            return
+
+            return 
         }
 
-        console.log("Let's play Rock, Paper, Scissors!")
-        playGame()
-        let retry = prompt('Would you like to play again?', 'Y/N')
-        if ( retry == 'Y'){
-                playGame();
-            }
-        
+        scoreboard = document.getElementById('score');
+        scoreCol1  = document.getElementById("col1");
+        scoreCol2  = document.getElementById("col2");
+                
+        rock     = document.createElement("button");
+        paper    = document.createElement("button");
+        scissors = document.createElement("button");
 
-        // console.log(getPlayerChoice())
-        // console.log(getComputerChoice())
+        rock.textContent     = 'Rock';
+        paper.textContent    = 'Paper';
+        scissors.textContent = 'Scissors';
+
+        rock.addEventListener('click', () => {
+
+            playerSelection = 'Rock';
+            playRound();
+            scoreCol1.innerText = playerScore;
+            scoreCol2.innerText = computerScore;
+            
+
+        });
+        paper.addEventListener('click', () => {
+
+            playerSelection = 'Paper';
+            playRound();
+            scoreCol1.innerText = playerScore;
+            scoreCol2.innerText = computerScore;
+            
+
+            });
+        scissors.addEventListener('click', () => {
+
+            playerSelection = 'Scissors';
+            playRound();
+            scoreCol1.innerText = playerScore;
+            scoreCol2.innerText = computerScore;
+            
+
+        });
+
+                
+        document.body.appendChild(rock);
+        document.body.appendChild(paper);
+        document.body.appendChild(scissors);
+       
 
         
     </script>
